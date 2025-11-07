@@ -23,12 +23,13 @@ def findZeros(initial_state=100):
             break
 
         # simulating k, the state of the current step
-        new_state = 1
+        new_state = prev_state - 1
+        cum_prob += 2 * new_state / pow(prev_state, 2)
 
         while cum_prob < u:
+            new_state -= 1
             cum_prob += 2 * new_state / pow(prev_state, 2)
-            new_state += 1
-        prev_state = new_state
+        prev_state = max(new_state, 1)
     return iterations
 
 
@@ -43,7 +44,7 @@ def simulate(initial_state=1000, precision=1):
         outcomes[outcome] += 1
         running_sum += outcome
         sum_squares += outcome * outcome
-        # todo: go from fixed interval to percentage
+        # todo: go from fixed interval to relative error
         if runs > 2 and t.ppf(0.975, runs-1) * math.sqrt(calcVar(sum_squares, running_sum, runs)) < precision:
             break
         runs += 1
