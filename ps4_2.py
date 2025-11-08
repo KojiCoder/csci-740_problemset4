@@ -64,21 +64,43 @@ def findZeros(initial_state=100):
 #         else:
 #             return iterations + findZeros(k)
 
-def generateGraph(outcome_list, sample_mean):
+def generateHist(outcome_list, sample_mean):
     plt.hist(outcome_list)
     mean_label = "Mean: " + str(f"{(sample_mean):.2f}")
     plt.axvline(sample_mean, color = 'r', label=mean_label)
     plt.xlabel("Number of Iterations")
     plt.ylabel("Occurrences")
+    plt.title("Distribution On The Number of Iterations")
+    plt.legend()
+    plt.show()
+    
+def generateGraph(mean_list, margin_list):
+    sample_size = []
+    upper_bound = []
+    lower_bound = []
+    for i in range(len(mean_list)):
+        upper_bound.append(mean_list[i] + margin_list[i])
+        lower_bound.append(mean_list[i] - margin_list[i])
+        sample_size.append(i+2)
+    plt.plot(sample_size, mean_list, color="red")
+    plt.plot(sample_size, upper_bound, color="green", label="Upper Interval")
+    plt.plot(sample_size, lower_bound, color="yellow", label="Lower Interval")
+    plt.ylim(0, 25)
+    plt.xlabel("Number of Sample Size")
+    plt.ylabel("Sample Mean")
+    plt.title("Approaching 95% Confidence Interval")
     plt.legend()
     plt.show()
 
 def simulate():
     outcome_list = []
+    sample_mean_list = []
+    err_margin_list = []
     stop = False
     start_time = time.perf_counter()
-    # needs to run the algorithm once outside the loop and then append to the list
-    outcome_list.append(findZeros(1000))
+    # needs to run the algorithm two times outside the loop and then append to the list
+    for _ in range(2):
+        outcome_list.append(findZeros(1000))
     while not stop:
         # run the algorithm once and append the outcome to the list
         outcome_list.append(findZeros(1000))
@@ -86,13 +108,20 @@ def simulate():
         sample_size = len(outcome_list)
         # calculates the sample mean so far
         sample_mean = calcSampleMean(outcome_list, sample_size)
+        sample_mean_list.append(sample_mean)
         err_margin = calc5PercentErrorMargin(outcome_list, sample_mean, sample_size)
-        if (sample_size > 2) and (err_margin <= sample_mean * 0.05):
+        err_margin_list.append(err_margin)
+        if err_margin <= sample_mean * 0.05:
             stop = True
     end_time = time.perf_counter()
     # display info
     print("Runs: " + str(sample_size))
-    print("Avg: " + str(f"{(sample_mean):.6f}"))
+    print("Avg: " + str(f"{(sample_mean):.2f}"))
+    lower_value = sample_mean - err_margin_list[len(err_margin_list) - 1]
+    upper_value = sample_mean + err_margin_list[len(err_margin_list) - 1]
+    print("Interval: [" + str(f"{(lower_value):.2f}") + ", " + str(f"{(upper_value):.2f}") + "]")
     print("Simulation took " + str(end_time - start_time) + " seconds")
     # generate plot
-    generateGraph(outcome_list, sample_mean)
+    generateHist(outcome_list, sample_mean)
+    generateGraph(sample_mean_list, err_margin_list)
+    
