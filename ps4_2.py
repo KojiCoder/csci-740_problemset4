@@ -22,14 +22,11 @@ def calcSampleVariance(outcome_list, sample_mean, sample_size):
         summation_result += pow((outcome - sample_mean), 2)
     return float(summation_result)/(sample_size - 1)
 
-# calculates the bound interval that would contain the true mean mu
-def calc5PercentErrorMean(outcome_list, sample_mean, sample_size, bound):
+# calculates 95 percent confidence interval for true mu
+def calc5PercentErrorMean(outcome_list, sample_mean, sample_size):
     sample_sd = math.sqrt(calcSampleVariance(outcome_list, sample_mean, sample_size))
-    _range = 1.96 * (sample_sd / math.sqrt(sample_size))
-    if bound == "lower":
-        return sample_mean - _range
-    elif bound == "upper":
-        return sample_mean + _range
+    # uses student-t distribution
+    return (t.ppf(0.975, sample_size-1) * (sample_sd / math.sqrt(sample_size))) * 2
 
 def findZeros(initial_state=100):
     iterations = 1
@@ -103,7 +100,7 @@ def generateGraph(outcome_list, sample_mean):
     plt.legend()
     plt.show()
 
-def simulate(precision=1):
+def simulate():
     outcome_list = []
     stop = False
     start_time = time.perf_counter()
@@ -116,11 +113,9 @@ def simulate(precision=1):
         sample_size = len(outcome_list)
         # calculates the sample mean so far
         sample_mean = calcSampleMean(outcome_list, sample_size)
-        # calculates lower and upper bound
-        lower_mu = calc5PercentErrorMean(outcome_list, sample_mean, sample_size, "lower")
-        upper_mu = calc5PercentErrorMean(outcome_list, sample_mean, sample_size, "upper")
-        est_interval = upper_mu - lower_mu
-        if (sample_size > 2) and (est_interval < precision):
+        _range = calc5PercentErrorMean(outcome_list, sample_mean, sample_size)
+        # print("Range:" + str(_range))
+        if (sample_size > 2) and (_range <= 0.95):
             stop = True
     end_time = time.perf_counter()
     # display info
