@@ -22,11 +22,10 @@ def calcSampleVariance(outcome_list, sample_mean, sample_size):
         summation_result += pow((outcome - sample_mean), 2)
     return float(summation_result)/(sample_size - 1)
 
-# calculates 95 percent confidence interval for true mu
-def calc5PercentErrorMean(outcome_list, sample_mean, sample_size):
+# calculates 95 percent confidence interval using t distribution
+def calc5PercentErrorMargin(outcome_list, sample_mean, sample_size):
     sample_sd = math.sqrt(calcSampleVariance(outcome_list, sample_mean, sample_size))
-    # uses student-t distribution
-    return (t.ppf(0.975, sample_size-1) * (sample_sd / math.sqrt(sample_size))) * 2
+    return (t.ppf(0.975, sample_size-1) * (sample_sd / math.sqrt(sample_size)))
 
 def findZeros(initial_state=100):
     iterations = 1
@@ -65,32 +64,6 @@ def findZeros(initial_state=100):
 #         else:
 #             return iterations + findZeros(k)
 
-# def simulate(initial_state=1000, precision=1):
-#     start_time = time.perf_counter()
-#     running_sum = 0
-#     sum_squares = 0
-#     outcomes = defaultdict(int)
-#     runs = 1
-#     while True:
-#         outcome = findZeros(initial_state)
-#         outcomes[outcome] += 1
-#         running_sum += outcome
-#         sum_squares += outcome * outcome
-#         # todo: go from fixed interval to relative error
-#         if runs > 2 and t.ppf(0.975, runs-1) * math.sqrt(calcVar(sum_squares, running_sum, runs)) < precision:
-#             break
-#         runs += 1
-#     print("Runs: " + str(runs))
-#     print("Avg: " + str(running_sum / runs))
-#     print("Simulation took " + str(time.perf_counter() - start_time) + " seconds")
-
-#     plt.bar(outcomes.keys(), outcomes.values(), 1, color='g')
-#     plt.title("Find Zeros Simulation")
-#     plt.xlabel('Outcome')
-#     plt.ylabel('Occurrences')
-#     plt.show()
-#     plt.close()
-
 def generateGraph(outcome_list, sample_mean):
     plt.hist(outcome_list)
     mean_label = "Mean: " + str(f"{(sample_mean):.2f}")
@@ -113,14 +86,13 @@ def simulate():
         sample_size = len(outcome_list)
         # calculates the sample mean so far
         sample_mean = calcSampleMean(outcome_list, sample_size)
-        _range = calc5PercentErrorMean(outcome_list, sample_mean, sample_size)
-        # print("Range:" + str(_range))
-        if (sample_size > 2) and (_range <= 0.95):
+        err_margin = calc5PercentErrorMargin(outcome_list, sample_mean, sample_size)
+        if (sample_size > 2) and (err_margin <= sample_mean * 0.05):
             stop = True
     end_time = time.perf_counter()
     # display info
     print("Runs: " + str(sample_size))
-    print("Avg: " + str(sample_mean))
+    print("Avg: " + str(f"{(sample_mean):.6f}"))
     print("Simulation took " + str(end_time - start_time) + " seconds")
     # generate plot
     generateGraph(outcome_list, sample_mean)
