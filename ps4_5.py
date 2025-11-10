@@ -97,54 +97,6 @@ def DESAlgo(precision=0.1):
 def POMAlgo(precision=0.1):
     cycle_sojourn = 0
     cycle_count = 0
-    cycle_start_time = 0
-    total_sojourn = 0
-    prev_arrival_time = 0
-    prev_departure_time = 0
-    sojourn_squares = 0
-    cycle_time_squares = 0
-    customers = 0
-    product_sum = 0
-    while True:
-        customers += 1
-        arrival_time = prev_arrival_time + generatePoissonArrivalTime(1)
-        departure_time = max(arrival_time, prev_departure_time) + generateGammaServiceTime(3, 4)
-        sojourn = departure_time - arrival_time
-        cycle_sojourn += sojourn
-        total_sojourn += sojourn
-
-        # handle end of cycle
-        if arrival_time > prev_departure_time:
-            cycle_count += 1
-            cycle_length = departure_time - cycle_start_time
-            sojourn_squares += pow(cycle_sojourn, 2)
-            cycle_time_squares += pow(cycle_length, 2)
-            product_sum += cycle_sojourn * cycle_length
-
-            # Stop simulation when the confidence interval is small enough
-            if cycle_count > 100:
-                sample_mean = total_sojourn / customers
-
-                sigma_z = (calcVar(sojourn_squares, total_sojourn, cycle_count)
-                           - (2 * calcCoVar(product_sum, total_sojourn, departure_time, cycle_count))
-                           + (calcVar(cycle_time_squares, total_sojourn, cycle_count) * pow(sample_mean, 2)))
-
-                err_margin = norm.ppf(0.975) * math.sqrt(max(sigma_z / cycle_count, 0)) / (departure_time / cycle_count)
-
-                if err_margin < precision:
-                    break
-            cycle_sojourn = 0
-            cycle_start_time = arrival_time
-
-        prev_arrival_time = arrival_time
-        prev_departure_time = departure_time
-
-    return total_sojourn / customers
-
-
-def POMAlgo(precision=0.1):
-    cycle_sojourn = 0
-    cycle_count = 0
     cycle_customers = 0
     total_sojourn = 0
     prev_arrival_time = 0
@@ -177,7 +129,7 @@ def POMAlgo(precision=0.1):
                            - (2 * calcCoVar(product_sum, total_sojourn, departure_time, cycle_count))
                            + (calcVar(cycle_customers_squares, total_sojourn, cycle_count) * pow(sample_mean, 2)))
 
-                err_margin = norm.ppf(0.975) * math.sqrt(max(sigma_z / cycle_count, 0)) / (departure_time / cycle_count)
+                err_margin = norm.ppf(0.975) * math.sqrt(max(sigma_z / cycle_count, 0)) / (customers / cycle_count)
 
                 if err_margin < precision:
                     break
