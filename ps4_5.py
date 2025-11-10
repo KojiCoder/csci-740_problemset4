@@ -143,6 +143,7 @@ def POMAlgo(precision=0.1):
 
 
 def RunDESAlgo(runs=20, precision=0.1):
+    start_time = time.perf_counter()
     center = 1.5
     bin_width = 0.0125
     max_error = 0
@@ -154,6 +155,7 @@ def RunDESAlgo(runs=20, precision=0.1):
         if abs(result - center) > max_error:
             max_error = err
         sample_means.append(result)
+    print("Simulation took " + str(time.perf_counter() - start_time) + " seconds")
     bins = np.arange(center - ((max_error // bin_width + 1) * bin_width),
                      center + max_error + bin_width, bin_width)
     counts, bin_edges, _ = plt.hist(sample_means, bins=bins, density=True, alpha=0.6)
@@ -173,6 +175,7 @@ def RunDESAlgo(runs=20, precision=0.1):
 
 
 def RunPOMAlgo(runs=20, precision=0.1):
+    start_time = time.perf_counter()
     center = 2.25
     bin_width = 0.0125
     max_error = 0
@@ -184,6 +187,7 @@ def RunPOMAlgo(runs=20, precision=0.1):
         if abs(result - center) > max_error:
             max_error = err
         sample_means.append(result)
+    print("Simulation took " + str(time.perf_counter() - start_time) + " seconds")
     bins = np.arange(center - ((max_error // bin_width + 1) * bin_width),
                      center + max_error + bin_width, bin_width)
     counts, bin_edges, _ = plt.hist(sample_means, bins=bins, density=True, alpha=0.6)
