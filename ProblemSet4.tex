@@ -177,19 +177,64 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
 \end{problem}
 
 \begin{solution}
+    \begin{enumerate}
+        % part a
+        \item Part A
+
+        % part b
+        \item Part B
+
+        % part c
+        \item In both models, we note that since contacts occur within the population according to a Poisson process of rate~$\lambda$,
+        and any of the $\binom{N}{2}$ pairs are equally likely to be involved,
+        contacts between any one specific pair will follow a Poisson process of rate
+        $\displaystyle \frac{\lambda}{\binom{N}{2}}$ (Prop.~8).
+
+        We also note that only contacts between one infected individual and one healthy non-immune individual change the state.
+        All other contacts never result in infection.
+
+        Of the $\binom{N}{2}$ pairs that can have contact, there are $x y$ pairs where contact can result in infection (with $x$ infected individuals, and y = N - x healthy individuals). When a contact event with one of these pairs occurs, there is an infection with probability $p$.
+
+        The Poisson processes of contacts that do result in infection can be merged to follow a Poisson process of rate $\lambda {p}\cdot \frac{2xy}{(N)(N - 1)}$.
+
+
+        Therefore, for the sake of increased efficiency, can simulate the inter-arrival times of only the contact events that change the state.
+        For model 2, since we must also simulate the recovery of infected individuals, we note that since they remain ill for an exponential amount of time with intensity $\mu$, we can infer from the fact that Poisson processes are mergeable, and that their inter-arrival times follow an exponential distribution, we can also merge the recovery events with each other, and also with the contact events.
+        As follows, the inter-arrival times of recovery events will follow an exponential distribution with intensity $\mu \times \text{num\_infected}$.
+        We simulate the inter-arrival times of either event happening with an exponential distribution with the following intensity:
+        \[
+        \left( \lambda {p} \cdot \frac{2xy}{(N)(N - 1)} \right) + \left( \mu \times \text{num\_infected} \right)
+        \]
+        We can then simulate whether the event was an infection event or recovery event, with the probability of it being an infection event as the following:
+        \[
+        \frac{
+          \lambda {p} \cdot \dfrac{2xy}{(N)(N - 1)}
+        }{
+          \left( \lambda {p} \cdot \dfrac{2xy}{(N)(N - 1)} \right)
+          + \left( \mu \, n_{\text{infected}} \right)
+        }
+        \]
+        After each event, we increment the clock by the inter-arrival time, repeating until we reach an absorption state.
+        We can calculate the confidence interval of our simulation at a $95\%$ confidence level with the same method we describe in our answer for Problem 2(b).
+
+        % part d
+        \item To add life immunity to the model, we change the state of the Markov chain to be the number of infected individuals, and the number of non-immune healthy individuals.
+        To modify our simulation, we update to our new definition of the state, and use the same equations as outlined in part C, with the caveat of y now representing the number of non-immune healthy individuals, rather than being equal to N - x.
+
+    \end{enumerate}
 \end{solution}
 
 \begin{problem} \marks{30}
-You have decided to do consultation for modeling, simulation and optimization. You offer various research  services: modeling, statistical analysis, optimization, software development, etc. There are $N$ such research 
-stages (or ``tasks'') and they always follow a specific order: research of type  $n$ is always followed  by that of type $n-1$, for $N\ge n > 1$. The time (in hours) required to complete stage $n$ follows a distribution $F_n$ of mean $\mu_n$. Potential clients arrive according to a Poisson process of rate $\la$, and you take the job only if you are free at the time of arrival of the client. If you are already working on a problem then you do not take new contracts. Each problem starts at stage $n$ with probability $p_n$ and ends at stage $1$, following all  intermediate stages. Let $X(t)=n$ if at time $t$ you are working on stage $n$ of a problem, and use $X(t)=0$ if at time $t$ you are free, waiting for new contracts. 
+You have decided to do consultation for modeling, simulation and optimization. You offer various research  services: modeling, statistical analysis, optimization, software development, etc. There are $N$ such research
+stages (or ``tasks'') and they always follow a specific order: research of type  $n$ is always followed  by that of type $n-1$, for $N\ge n > 1$. The time (in hours) required to complete stage $n$ follows a distribution $F_n$ of mean $\mu_n$. Potential clients arrive according to a Poisson process of rate $\la$, and you take the job only if you are free at the time of arrival of the client. If you are already working on a problem then you do not take new contracts. Each problem starts at stage $n$ with probability $p_n$ and ends at stage $1$, following all  intermediate stages. Let $X(t)=n$ if at time $t$ you are working on stage $n$ of a problem, and use $X(t)=0$ if at time $t$ you are free, waiting for new contracts.
 \begin{enumerate}
 \item \marks{5} Under what conditions on $\{F_n\}$ is $X(t)$ a CTMC? Give the rates $v_i$ and transition kernel $P_{ij}$.
-\item \marks{10} Suppose that the distributions $F_n, n=1,\ldots , N$ are not memoryless. You assume that you will charge $c$ dollars per hour of work. Specify the regeneration points of the process (see CTMC Lecture Notes) and determine the long term rate of profit. 
-\item \marks{15} In order to price your services correctly, let us assume that clients are discouraged if $c$ is too big. Specifically, assume that the probability that clients accept your conditions is given by $P_c=(K-c)/K, 0\le c <K$. If $c\ge K$ then $P_c=0$ (no client will hire you). %and define 
+\item \marks{10} Suppose that the distributions $F_n, n=1,\ldots , N$ are not memoryless. You assume that you will charge $c$ dollars per hour of work. Specify the regeneration points of the process (see CTMC Lecture Notes) and determine the long term rate of profit.
+\item \marks{15} In order to price your services correctly, let us assume that clients are discouraged if $c$ is too big. Specifically, assume that the probability that clients accept your conditions is given by $P_c=(K-c)/K, 0\le c <K$. If $c\ge K$ then $P_c=0$ (no client will hire you). %and define
 %\[
 %M\eqdef \sum_{n=1}^N p_n \sum_{k=n}^N \mu_k.
 %\]
-Design a simulation to evaluate the long term profit as a function of $c$. Explain how you can use these simulations to determine the optimal value of $c$. Specify how you build the simulations for different  values of $c$ in order to compare the long term profit rate, and how do you build the confidence intervals. Plus, specify if you are using a linear or binary search to determine the optimal value. For you simulation, use $K=2, \la=2$, $N=5$ and 
+Design a simulation to evaluate the long term profit as a function of $c$. Explain how you can use these simulations to determine the optimal value of $c$. Specify how you build the simulations for different  values of $c$ in order to compare the long term profit rate, and how do you build the confidence intervals. Plus, specify if you are using a linear or binary search to determine the optimal value. For you simulation, use $K=2, \la=2$, $N=5$ and
 \[
 \mu= (0.3,  0.1, 0.2, 0.3, 0.1)^\top.
 \]
@@ -199,6 +244,14 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 \end{problem}
 
 \begin{solution}
+    \begin{enumerate}
+        % part a
+        \item Part A
+        % part b
+        \item Part B
+        % part b
+        \item For simplicity, when running our simulations
+    \end{enumerate}
 \end{solution}
 
 \begin{problem} \marks{20}
