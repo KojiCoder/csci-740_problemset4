@@ -177,6 +177,7 @@ def SearchSpace(searches):
     ax.set_title("Long Term Profit Rate vs Cost")
     plt.show()
     plt.savefig("p5_profit_fig.png")
+    plt.close()
 
 
 # stuff for testing code

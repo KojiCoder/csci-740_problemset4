@@ -128,6 +128,7 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
 
 \begin{solution}
 \end{solution}
+\pagebreak
 
 %\begin{problem} \marks{10}
 %Consider a population of individuals each of whom possesses two genes that can be either type $A$ or type $a$. Suppose that in outward appearance (the {\em phenotype}) type $A$ is dominant and type $a$ recessive. Suppose that the population has stabilized, and the percentages of individuals having respective gene pairs $AA$, $aa$ and $Aa$ are $p,q,$ and $r$ Call an individual dominant or recessive depending on phenotype. Let $S_{11}$ denote the probability that an offspring of two dominant parents will be recessive, $S_{10}$ the probability that the offspring of one recessive and one dominant parent will be recessive. Compute $S_{11}$ and $S_{10}$ to show that $S_{11}= S_{10}^2$. These quantities are known in genetics as {\em Snyder's ratios}. 
@@ -223,6 +224,7 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
 
     \end{enumerate}
 \end{solution}
+\pagebreak
 
 \begin{problem} \marks{30}
 You have decided to do consultation for modeling, simulation and optimization. You offer various research  services: modeling, statistical analysis, optimization, software development, etc. There are $N$ such research
@@ -246,6 +248,8 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 \begin{solution}
     \begin{enumerate}
         % part a
+        \item Part A
+        % part b
         \item The long term profit rate can be expressed as the following:
         \[
         \quad c \cdot \frac{T_{\text{working}}}{T_{\text{total}}}
@@ -268,11 +272,10 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
         }
         \]
         % part b
-        \item Part B
-        % part b
-        \item For simplicity, when running our simulations
+        \item Part C
     \end{enumerate}
 \end{solution}
+\pagebreak
 
 \begin{problem} \marks{20}
 Consider a M/GI/1 queue with Poisson arrivals of rate $\la$ and iid service times $\{S_i\}$ with  distribution $\Gamma(3,4)$. The goal is to estimate the stationary average queue length $\th$. For each simulation model, namely the discrete-event based model and the Petri-net model, do the following. 
@@ -304,7 +307,16 @@ Consider a M/GI/1 queue with Poisson arrivals of rate $\la$ and iid service time
         \item The total number of iterations the simulation performs is a random stopping time since we calculate our confidence interval based on past observations, and stop when it is less than a fixed number.
 
         % part c
-        \item Part C
+        \item
+        \begin{figure}[h]
+            \begin{center}
+                \includegraphics[scale=0.38]{p5_des_fig.png}
+                \includegraphics[scale=0.38]{p5_pom_fig.png}
+            \end{center}
+        \end{figure}
+        20 DES estimations took a total of 21.26 seconds, while 20 POM estimations took a very similar 22.76 seconds.
+        Both approaches are very close in terms of speed, and the distribution of their output \theta estimates are not significantly different.
+        For both approaches, the coverage was the expected $95\%$
     \end{enumerate}
 \end{solution}
 
