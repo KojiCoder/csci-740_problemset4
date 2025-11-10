@@ -246,7 +246,27 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item Part A
+        \item The long term profit rate can be expressed as the following:
+        \[
+        \quad c \cdot \frac{T_{\text{working}}}{T_{\text{total}}}
+        \]
+
+        \[
+        = c \cdot \frac{\text{customers} \times \text{avg. time per customer}}
+        {\text{customers} \times \text{avg. time per customer} + \text{avg. time between customers}}
+        \]
+
+        \[
+        = c \cdot
+        \frac{
+        \displaystyle \sum_{n=1}^{N}
+        \left( \mu_n \cdot \sum_{i=n}^{N} p_i \right)
+        }{
+        \displaystyle \sum_{n=1}^{N}
+        \left( \mu_n \cdot \sum_{i=n}^{N} p_i \right)
+        + \frac{1}{\lambda}
+        }
+        \]
         % part b
         \item Part B
         % part b
@@ -267,6 +287,25 @@ Consider a M/GI/1 queue with Poisson arrivals of rate $\la$ and iid service time
 \end{problem}
 
 \begin{solution}
+    \begin{enumerate}
+        % part a
+        \item We modified our simulation code from the previous problem set to continue the simulation until the confidence interval has precision $\ep < 0.1$.
+        With the batch means method, for best performance the length of each batch should be n and the number of batches should be $\sqrt{n}$.
+        Increasing n to reduce the confidence interval, while spinning up new batches and balancing the length of all batches seemed unnecessarily complicated and could require a lot of memory, so we decdied to use the regenerative method.
+        For the DES model, which estimates a stationary average, we define the end of a regeneration cycle as when there are no customers in the queue and no customer is being served.
+        For each cycle, we calculate $\int_{T_{k-1}}^{T_k} queue\_length\ dt$ as the waiting time in the kth cycle.
+        Using the sums of the waiting times, sums of the squares of the waiting times, sums of the regeneration times, and sums of the squares of the regeneration times, and the sample mean, we calculate $\sigma_z$.
+        We calculate the width of our confidence interval as $\frac{Z_{0.975}\,\sigma_z}{\sqrt{n}\hat{\mu}}$, and stop when it is less than 0.1.
+        In the case of the POM model, the output is an estimate of the average sojourn time per customer.
+        Since we are finding an average per customer rather than per unit time, we thought it would be appropriate to calculate the total sojourn time in each cycle, use the number of customers in each cycle instead of the regeneration times.
+        Otherwise, it follows the same method used in the DES model.
+
+        % part b
+        \item The total number of iterations the simulation performs is a random stopping time since we calculate our confidence interval based on past observations, and stop when it is less than a fixed number.
+
+        % part c
+        \item Part C
+    \end{enumerate}
 \end{solution}
 
 \end{document}
