@@ -77,7 +77,7 @@ def DESAlgo(end_time=10000, cost=1):
                - (2 * calcCoVar(cycle_profit_time_product, total_profit, current_time, cycle_count))
                + (calcVar(cycle_time_squares, current_time, cycle_count) * pow(sample_mean, 2)))
 
-    err_margin = norm.ppf(0.975) * math.sqrt(sigma_z / cycle_count) / (current_time / cycle_count)
+    err_margin = norm.ppf(0.975) * math.sqrt(max(sigma_z / cycle_count, 0)) / (current_time / cycle_count)
 
     return total_profit / current_time, err_margin
 
@@ -125,7 +125,7 @@ def DESAlgoStopping(cost=1, precision=0.01):
                 cycle_time_squares += cycle_time ** 2
                 cycle_profit_squares += cycle_profit ** 2
                 cycle_profit_time_product += cycle_profit * cycle_time
-                if cycle_count > 10:
+                if cycle_count > 1000:
                     sample_mean = total_profit / current_time
 
                     sigma_z = (calcVar(cycle_profit_squares, total_profit, cycle_count)
@@ -148,7 +148,7 @@ def SearchSpace(searches):
     costs = np.linspace(0.0, 2, searches)[1:-1]
 
     for c in costs:
-        avg, err = DESAlgoStopping(cost=c)  # your function: returns (avg, err)
+        avg, err = DESAlgo(cost=c)  # your function: returns (avg, err)
 
         stats.append({
             'med': float(avg),
@@ -173,9 +173,10 @@ def SearchSpace(searches):
         patch.set_alpha(0.6)
 
     ax.set_xlabel("Cost")
-    ax.set_ylabel("Value")
-    ax.set_title("Custom interval boxes at numeric x-positions")
+    ax.set_ylabel("Profit Rate")
+    ax.set_title("Long Term Profit Rate vs Cost")
     plt.show()
+    plt.savefig("p5_profit_fig.png")
 
 
 # stuff for testing code
