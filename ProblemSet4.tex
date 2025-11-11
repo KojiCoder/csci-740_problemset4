@@ -96,26 +96,28 @@
 \def\ep{{\epsilon}}
 \newcommand\pfrac[2]{{\left(\frac{#1}{#2}\right)}}
 
+\newcommand{\hmwkTitle}{Problem Set \#4}
+\newcommand{\hmwkDueDate}{Novemeber 10th, 2025}
+\newcommand{\hmwkClass}{Computer Simulation and Modeling}
+\newcommand{\hmwkClassInstructor}{Professor Vázquez-Abad}
+\newcommand{\hmwkAuthorName}{\textbf{Sean Ma}, \textbf{Zhipeng Yang}, \textbf{Kevin Zhang}}
 
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:59}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
 
 \begin{document}\sf
 
-\lhead{ } \chead{ } \rhead{ } \lfoot{ } \cfoot{\sf -- page
-\thepage~  of  \pageref{LastPage}  --  } \rfoot{ }                                                     %            <=====   PAGE NUMBERING
-
-\title{\bfseries Computer Modeling  and  Simulation}
-\author{
-% \sc CSc 86030, Graduate Center and STAT 702, Hunter College, CUNY
-}
-\date{}
-
 \maketitle
 
-%\null \vskip - 5 cm
-
-\begin{center}
-\vskip - 2 cm { {\bfseries Problem Set 4}}
-\end{center}
+\pagebreak
 
 \begin{problem}
 Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains with respective limit probabilities $\pi^{(i)}$, for $i=1,2$. 
@@ -132,8 +134,6 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
         \item $\{X_n\}$ is not a Markov chain because the result of coin flipping is from the past,and it depends on a random coin flipping at time 0. \\
 
             The transition probabilities:
-
-
             \[
             P(X_{n+1} = (j, Coin) \mid X_n = (i, Coin)) =
             \begin{cases}
@@ -142,7 +142,6 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
             \end{cases}
             \]
             The limiting probabilities: 
-
             \[
             \lim_{n \to \infty} \mathbb{P}(X_n = i) = p \, \pi^{(1)}_i + (1 - p) \, \pi^{(2)}_i
             \]
@@ -154,11 +153,9 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
     P(X_{n+1} = j \mid X_n = i) = p \cdot P^{(1)}_{ij} + (1 - p) \cdot P^{(2)}_{ij}
     \]
     The limiting probabilities: 
-
     \[
     \lim_{n \to \infty} \mathbb{P}(X_n = i) = \pi_i
     \]
-
     It is the stationary distribution of \[ P =p \cdot P^{(1)} + (1 - p) \cdot P^{(2)}\]
     Counter example:
     \[
@@ -212,10 +209,6 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
 \end{solution}
 \pagebreak
 
-%\begin{problem} \marks{10}
-%Consider a population of individuals each of whom possesses two genes that can be either type $A$ or type $a$. Suppose that in outward appearance (the {\em phenotype}) type $A$ is dominant and type $a$ recessive. Suppose that the population has stabilized, and the percentages of individuals having respective gene pairs $AA$, $aa$ and $Aa$ are $p,q,$ and $r$ Call an individual dominant or recessive depending on phenotype. Let $S_{11}$ denote the probability that an offspring of two dominant parents will be recessive, $S_{10}$ the probability that the offspring of one recessive and one dominant parent will be recessive. Compute $S_{11}$ and $S_{10}$ to show that $S_{11}= S_{10}^2$. These quantities are known in genetics as {\em Snyder's ratios}. 
-%\end{problem}
-
 \begin{problem}
 An algorithm is built to find the zeroes of a function. If this algorithm is in state $j$ at the $n$-th step, then the probability of finding a zero in the next step is $1/j$. Otherwise its state will be $k \in \{1,2,\ldots, j-1\}$ with probability $2k/j^2$. 
 \begin{enumerate}
@@ -253,7 +246,7 @@ An algorithm is built to find the zeroes of a function. If this algorithm is in 
             \[
             E(m)=1+\sum_{k=1}^{m-1} \frac {2k}{m^2} \cdot E_k
             \]
-            For finding Big O, we use the substitution method and only consider the upper bound.\\\\
+            For finding Big $O$, we used the substitution method and only consider the upper bound.\\\\
             Assume\[E(k)\leq C\ln k\quad \text{for all } k < j\]
             \[
             E(j)=1+\sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot E(k)
@@ -264,17 +257,16 @@ An algorithm is built to find the zeroes of a function. If this algorithm is in 
             \]
             \[ \int_1^j k \ln k \, dk =\frac{j^2}{2}\ln j - \frac{j^2}{4}+\frac{1}{4}\]
             Therefore,
-
             \[
             E(j)\leq 1+ \frac {2c}{j^2}(\frac{j^2}{2}\ln j - \frac{j^2}{4}+\frac{1}{4})
             \]
             \[Ej\leq C \ln j +1-\frac {1}{2}C+\frac{C}{2j^2}\]
             When there is a constant C, that makes $1-\frac {1}{2}C+\frac{C}{2j^2}\leq 0$, we can have:
             \[
-            E(j)\leq C \ln j \Rightarrow E(j) \leq \mathcal{O}((\ln j))
+            E(j)\leq C \ln j \Rightarrow E(j) \leq O(\ln(j))
             \]
             Therefore, when we start at state m, we have:
-            \[E(m)\leq \mathcal{O}((\ln m))\]
+            \[E(m)\leq O(\ln(m))\]
 
         % part b
         \item In our simulation of the algorithm, we used the inverse CDF method to determine the state of the next step.
@@ -292,17 +284,12 @@ An algorithm is built to find the zeroes of a function. If this algorithm is in 
 
         \begin{figure}[h]
                 \begin{center}
-                    \includegraphics[scale=0.46]{p2_dist_fig.png}
-                    \includegraphics[scale=0.46]{p2_conf_fig.png}
+                    \includegraphics[scale=0.52]{p2_dist_fig.png}
+                    \includegraphics[scale=0.52]{p2_conf_fig.png}
+                    \includegraphics[scale=0.52]{p2_avg_fig.jpg}
                 \end{center}
         \end{figure}
-        \begin{figure}[h]
-                \begin{center}
-                    \includegraphics[scale=0.65]{p2_avg_fig.jpg}
-                \end{center}
-        \end{figure}
-
-        To verify that the complexity is $\mathcal{O}(\ln(m))$, we plotted the log of the initial state against the average iterations.
+        To verify that the complexity is $O(\ln(m))$, we plotted the log of the initial state against the average iterations.
     \end{enumerate}
 \end{solution}
 
@@ -325,26 +312,30 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item $\{X(t), t\ge 0\}$ is a CTMC because each state transitions after an exponential random holding time, and the transitions of the embedded chain are memoryless.
-        It is also a Birth and Death process, since it models the population of infected individuals, and states can only transition to adjacent states (i.e. i to i + 1), representing a change in population.
-        For model 1, the number of infected individuals can only increase.
-        X(t) is a transient state if $1 \le X(t) < N$, and it is an absorbing state if $X(t) = N$.
-        For model 2, all states are accessible from all other states, except in the case of X(t) = 0, where no new infections are possible, and it is an absorbing state.
-        Therefore, all states that satisfy $X(t) > 0$ are transient states.\\
-        For model 1:\\
-        $q_{i, i+1} =\lambda p \frac{i\left(N - i\right)}{\binom{N}{2}}$\\
-        $q_{i, i-1} =0$\\
-        $v_i = q_{i, i+1}$\\
-        $P_{i, i+1} = 1$\\\\
-        For model 2:\\
-        $q_{i, i+1} =\lambda p \frac{i\left(N - i\right)}{\binom{N}{2}}$\\
-        $q_{i, i-1} =i\mu$\\
-        $v_i = q_{i, i+1} + q_{i, i-1}$.\\
-        $P_{i, i+1} = \frac{q_{i, i+1}}{v_i}$\\
-        $P_{i, i-1} = \frac{q_{i, i-1}}{v_i}$\\
+        \item $\{X(t), t\ge 0\}$ is a CTMC because each state transitions after an exponential random holding time. In addition, the transitions of the embedded chain are memoryless.
+        It is also a Birth and Death process since it models the population of infected individuals and the states can only transition to adjacent states (i.e. i to i + 1), representing a change in population.\\\\
+        For Model 1, the number of infected individuals can only increase.
+        $X(t)$ is a transient state if $1 \le X(t) < N$ and it is an absorbing state if $X(t) = N$.\\\\
+        For Model 2, all states are accessible from all other states, except in the case of $X(t) = 0$, where no new infections are possible and it is an absorbing state.
+        Therefore, all states that satisfy $X(t) > 0$ are transient states.\\\\
+        For Model 1:
+        \begin{itemize}
+            \item $q_{i, i+1} =\lambda p \frac{i\left(N - i\right)}{\binom{N}{2}}$
+            \item $q_{i, i-1} =0$
+            \item $v_i = q_{i, i+1}$
+            \item $P_{i, i+1} = 1$
+        \end{itemize}
+        For Model 2:
+        \begin{itemize}
+            \item $q_{i, i+1} =\lambda p \frac{i\left(N - i\right)}{\binom{N}{2}}$
+            \item $q_{i, i-1} =i\mu$
+            \item $v_i = q_{i, i+1} + q_{i, i-1}$
+            \item $P_{i, i+1} = \frac{q_{i, i+1}}{v_i}$
+            \item $P_{i, i-1} = \frac{q_{i, i-1}}{v_i}$
+        \end{itemize}
         % part b
-        \item For model 1:\\
-        possible pairs for next infection:
+        \item For Model 1:\\
+        Possible pairs for next infection:
         \[i(N-i)\]
         Total pairs:
         \[\binom{N}{2} = \frac{N(N - 1)}{2}\]
@@ -356,26 +347,26 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
         \[
         \ q_{i, i+1} = \lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p.
         \]
-        The expected time of a member infected :
+        The expected time of a member infected:
         \[
         \mathbb{E}[T_k] = \frac{1}{q_{k,k+1}}.
         \]
 
-        The expected time of all members of the population are infected :
+        The expected time of all members of the population are infected:
         \[
         \mathbb{E}[T_{total}] = \sum_{k=i}^{N-1} \frac{1}{q_{k,k+1}}.
         \]
-        For model 2:\\\\
-        Infection transition rate :
+        For Model 2:\\
+        Infection transition rate:
         \[
         \ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
         \]
-        Recovery transition rate :
+        Recovery transition rate:
         \[
           q_{i, i-1} = i \cdot \mu
           \]
         Total transition rate of moving state:
-        \[ {1}{q_{i, i-1} + q_{i, i+1}} \]
+        \[{q_{i, i-1} + q_{i, i+1}} \]
         The expected time spent in state i before moving to next state:
         \[\frac{1}{q_{i, i-1} + q_{i, i+1}}\]
         Therefore,total expected time until absorption: $\mathbb{E}[T_{total}]$ =time for next move + time after move.\\\\
@@ -401,7 +392,8 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
 
 
         Therefore, for the sake of increased efficiency, can simulate the inter-arrival times of only the contact events that change the state.
-        For model 2, since we must also simulate the recovery of infected individuals, we note that since they remain ill for an exponential amount of time with intensity $\mu$, we can infer from the fact that Poisson processes are mergeable, and that their inter-arrival times follow an exponential distribution, we can also merge the recovery events with each other, and also with the contact events.
+        For Model 2, since we must also simulate the recovery of infected individuals, we note that since they remain ill for an exponential amount of time with intensity $\mu$, we can infer from the fact that Poisson processes are mergeable and that their inter-arrival times follow an exponential distribution.
+        We can also merge the recovery events with each other and also with the contact events.
         As follows, the inter-arrival times of recovery events will follow an exponential distribution with intensity $\mu \times \text{num\_infected}$.
         We simulate the inter-arrival times of either event happening with an exponential distribution with the following intensity:
         \[
@@ -421,19 +413,19 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
 
         % part d
         \item To add life immunity to the model, we change the state of the Markov chain to be the number of infected individuals, and the number of non-immune healthy individuals.
-        To modify our simulation, we update to our new definition of the state, and use the same equations as outlined in part C, with the caveat of y now representing the number of non-immune healthy individuals, rather than being equal to N - x.
+        To modify our simulation, we update to our new definition of the state, and use the same equations as outlined in part (c), with the caveat of y now representing the number of non-immune healthy individuals, rather than being equal to $N - x$.
 
     \end{enumerate}
 \end{solution}
 \pagebreak
 
-\begin{problem} \marks{30}
+\begin{problem}
 You have decided to do consultation for modeling, simulation and optimization. You offer various research  services: modeling, statistical analysis, optimization, software development, etc. There are $N$ such research
 stages (or ``tasks'') and they always follow a specific order: research of type  $n$ is always followed  by that of type $n-1$, for $N\ge n > 1$. The time (in hours) required to complete stage $n$ follows a distribution $F_n$ of mean $\mu_n$. Potential clients arrive according to a Poisson process of rate $\la$, and you take the job only if you are free at the time of arrival of the client. If you are already working on a problem then you do not take new contracts. Each problem starts at stage $n$ with probability $p_n$ and ends at stage $1$, following all  intermediate stages. Let $X(t)=n$ if at time $t$ you are working on stage $n$ of a problem, and use $X(t)=0$ if at time $t$ you are free, waiting for new contracts.
 \begin{enumerate}
-\item \marks{5} Under what conditions on $\{F_n\}$ is $X(t)$ a CTMC? Give the rates $v_i$ and transition kernel $P_{ij}$.
-\item \marks{10} Suppose that the distributions $F_n, n=1,\ldots , N$ are not memoryless. You assume that you will charge $c$ dollars per hour of work. Specify the regeneration points of the process (see CTMC Lecture Notes) and determine the long term rate of profit.
-\item \marks{15} In order to price your services correctly, let us assume that clients are discouraged if $c$ is too big. Specifically, assume that the probability that clients accept your conditions is given by $P_c=(K-c)/K, 0\le c <K$. If $c\ge K$ then $P_c=0$ (no client will hire you). %and define
+\item Under what conditions on $\{F_n\}$ is $X(t)$ a CTMC? Give the rates $v_i$ and transition kernel $P_{ij}$.
+\item Suppose that the distributions $F_n, n=1,\ldots , N$ are not memoryless. You assume that you will charge $c$ dollars per hour of work. Specify the regeneration points of the process (see CTMC Lecture Notes) and determine the long term rate of profit.
+\item In order to price your services correctly, let us assume that clients are discouraged if $c$ is too big. Specifically, assume that the probability that clients accept your conditions is given by $P_c=(K-c)/K, 0\le c <K$. If $c\ge K$ then $P_c=0$ (no client will hire you). %and define
 %\[
 %M\eqdef \sum_{n=1}^N p_n \sum_{k=n}^N \mu_k.
 %\]
@@ -458,11 +450,11 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
         \begin{equation*}
             P_{ij} =
             \begin{bmatrix}
-                -\lambda & \lambda \cdot p_1 & \lambda \cdot p_2 & \lambda \cdot p_3 & \dots \\
-                \frac{1}{\mu_1} & -\frac{1}{\mu_1}   & 0   & 0   & \dots \\
-                0 & \frac{1}{\mu_2}  & -\frac{1}{\mu_2}   & 0   & \dots \\
-                0 & 0   & \frac{1}{\mu_3}   & -\frac{1}{\mu_3}   & \dots \\
-                0 & 0   & 0   & \frac{1}{\mu_4}   & \dots \\
+                -\lambda & \lambda p_1 & \lambda p_2 & \lambda p_3 & \dots \\
+                1 / \mu_1 & -1 / \mu_1   & 0   & 0   & \dots \\
+                0 & 1 / \mu_2  & -1 / \mu_2   & 0   & \dots \\
+                0 & 0   & 1 / \mu_3   & -1 / \mu_3   & \dots \\
+                0 & 0   & 0   & 1 / \mu_4   & \dots \\
 
                 \vdots & \vdots   & \vdots   & \vdots & \ddots\\
             \end{bmatrix}
@@ -497,7 +489,7 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
         We calculate the precision of our estimate using the regenerative method.
         We outline the method in more detail in our answer for problem 5(a).
         We chose to search the entire space of valid values of c to find a profit rate maximizing value.
-        We found that the long term profit rate is the highest in the neighborhood of c = 1.25.
+        We found that the long term profit rate is the highest in the neighborhood of $c = 1.25$.
         \begin{figure}[h]
                 \begin{center}
                     \includegraphics[scale=0.75]{p4_profit.jpg}
@@ -507,14 +499,14 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 \end{solution}
 \pagebreak
 
-\begin{problem} \marks{20}
+\begin{problem}
 Consider a M/GI/1 queue with Poisson arrivals of rate $\la$ and iid service times $\{S_i\}$ with  distribution $\Gamma(3,4)$. The goal is to estimate the stationary average queue length $\th$. For each simulation model, namely the discrete-event based model and the Petri-net model, do the following. 
 
 \noindent [{\it Hint:} You may re-use your code from Problem Set 2. If you write your code carefully you should be able to just change a subroutine and use common modules for both models]. 
 \begin{enumerate}
-\item  \marks{10} Let $\alpha=0.05$. Use an adaptive algorithm to stop the simulation so that the approximate confidence interval has precision $\ep = 0.1$. Assume that you do not know the mean and variance of the service distribution (that is, your program could run by reading consecutive service times from a file with historical data, or streaming data). Explain your choice of the algorithm to estimate the confidence interval (independent runs, batch means, discarding of ``warm-up'' period, etc). 
-\item \marks{5} Show that the total number of iterations in your simulation model using the stopping rule that you have defined is a random stopping time with respect to the simulation process. 
-\item \marks{5}  Perform 20 independent simulation runs to estimate the coverage probability for $\th$. Discuss your results. Discuss the results of the two different approaches: DES {\it versus} Petri Nets. 
+\item Let $\alpha=0.05$. Use an adaptive algorithm to stop the simulation so that the approximate confidence interval has precision $\ep = 0.1$. Assume that you do not know the mean and variance of the service distribution (that is, your program could run by reading consecutive service times from a file with historical data, or streaming data). Explain your choice of the algorithm to estimate the confidence interval (independent runs, batch means, discarding of ``warm-up'' period, etc). 
+\item Show that the total number of iterations in your simulation model using the stopping rule that you have defined is a random stopping time with respect to the simulation process. 
+\item Perform 20 independent simulation runs to estimate the coverage probability for $\th$. Discuss your results. Discuss the results of the two different approaches: DES {\it versus} Petri Nets. 
 \end{enumerate}
 
 \end{problem}
@@ -557,7 +549,6 @@ Consider a M/GI/1 queue with Poisson arrivals of rate $\la$ and iid service time
                 \includegraphics[scale=0.8]{p5_code_snippet.png}
             \end{center}
         \end{figure}
-        \newline
         % part c
         \item Running 20 DES estimations took a total of 21.26 seconds, while 20 POM estimations took a very similar 22.76 seconds.
         As such, the running time of these approaches are similar to each other.
