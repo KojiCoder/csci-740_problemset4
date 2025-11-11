@@ -153,7 +153,6 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
     \[
     P(X_{n+1} = j \mid X_n = i) = p \cdot P^{(1)}_{ij} + (1 - p) \cdot P^{(2)}_{ij}
     \]
-    Since the transition probabilities $P_{ij}$ only depend on the state i, $\left\{X_n\right\}$ is a Markov chain.
     The limiting probabilities: 
 
     \[
@@ -326,50 +325,65 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item Part A
-
+        \item $\{X(t), t\ge 0\}$ is a CTMC because each state transitions after an exponential random holding time, and the transitions of the embedded chain are memoryless.
+        It is also a Birth and Death process, since it models the population of infected individuals, and states can only transition to adjacent states (i.e. i to i + 1), representing a change in population.
+        For model 1, the number of infected individuals can only increase.
+        X(t) is a transient state if $1 \le X(t) < N$, and it is an absorbing state if $X(t) = N$.
+        For model 2, all states are accessible from all other states, except in the case of X(t) = 0, where no new infections are possible, and it is an absorbing state.
+        Therefore, all states that satisfy $X(t) > 0$ are transient states.\\
+        For model 1:\\
+        $q_{i, i+1} =\lambda p \frac{i\left(N - i\right)}{\binom{N}{2}}$\\
+        $q_{i, i-1} =0$\\
+        $v_i = q_{i, i+1}$\\
+        $P_{i, i+1} = 1$\\\\
+        For model 2:\\
+        $q_{i, i+1} =\lambda p \frac{i\left(N - i\right)}{\binom{N}{2}}$\\
+        $q_{i, i-1} =i\mu$\\
+        $v_i = q_{i, i+1} + q_{i, i-1}$.\\
+        $P_{i, i+1} = \frac{q_{i, i+1}}{v_i}$\\
+        $P_{i, i-1} = \frac{q_{i, i-1}}{v_i}$\\
         % part b
         \item For model 1:\\
-possible pairs for next infection:
-\[i(N-i)\]
-Total pairs:
-\[\binom{N}{2} = \frac{N(N - 1)}{2}\]
-The transition rate of next state infection:
-\[
-\ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
-\]
+        possible pairs for next infection:
+        \[i(N-i)\]
+        Total pairs:
+        \[\binom{N}{2} = \frac{N(N - 1)}{2}\]
+        The transition rate of next state infection:
+        \[
+        \ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
+        \]
 
-\[
-\ q_{i, i+1} = \lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p.
-\]
-The expected time of a member infected :
-\[
-\mathbb{E}[T_k] = \frac{1}{q_{k,k+1}}.
-\]
+        \[
+        \ q_{i, i+1} = \lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p.
+        \]
+        The expected time of a member infected :
+        \[
+        \mathbb{E}[T_k] = \frac{1}{q_{k,k+1}}.
+        \]
 
-The expected time of all members of the population are infected :
-\[
-\mathbb{E}[T_{total}] = \sum_{k=i}^{N-1} \frac{1}{q_{k,k+1}}.
-\]
-For model 2:\\\\
-Infection transition rate :
-\[
-\ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
-\]
-Recovery transition rate :
-\[
-  q_{i, i-1} = i \cdot \mu
-  \]
-Total transition rate of moving state:
-\[ {1}{q_{i, i-1} + q_{i, i+1}} \]
-The expected time spent in state i before moving to next state:
-\[\frac{1}{q_{i, i-1} + q_{i, i+1}}\]
-Therefore,total expected time until absorption: $\mathbb{E}[T_{total}]$ =time for next move + time after move.\\\\
-\[\mathbb{E}[T_i]= \frac{1}{q_{i, i-1} + q_{i, i+1}} 
-+ \frac{q_{i, i+1}}{q_{i, i-1} + q_{i, i+1}} T_{(i+1)} 
-+ \frac{q_{i, i-1}}{q_{i, i-1} + q_{i, i+1}} T_{(i-1)}\]
+        The expected time of all members of the population are infected :
+        \[
+        \mathbb{E}[T_{total}] = \sum_{k=i}^{N-1} \frac{1}{q_{k,k+1}}.
+        \]
+        For model 2:\\\\
+        Infection transition rate :
+        \[
+        \ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
+        \]
+        Recovery transition rate :
+        \[
+          q_{i, i-1} = i \cdot \mu
+          \]
+        Total transition rate of moving state:
+        \[ {1}{q_{i, i-1} + q_{i, i+1}} \]
+        The expected time spent in state i before moving to next state:
+        \[\frac{1}{q_{i, i-1} + q_{i, i+1}}\]
+        Therefore,total expected time until absorption: $\mathbb{E}[T_{total}]$ =time for next move + time after move.\\\\
+        \[\mathbb{E}[T_i]= \frac{1}{q_{i, i-1} + q_{i, i+1}}
+        + \frac{q_{i, i+1}}{q_{i, i-1} + q_{i, i+1}} T_{(i+1)}
+        + \frac{q_{i, i-1}}{q_{i, i-1} + q_{i, i+1}} T_{(i-1)}\]
 
-\[\mathbb{E}[T_i]= \frac{1}{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p}+i \cdot \mu}+\frac{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p} {{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p}+i \cdot \mu}}\cdot \mathbb{E}[T_{i+1}]+\frac{i \cdot \mu}{{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p+i \cdot \mu}}}\cdot \mathbb{E}[T_{i-1}]\]
+        \[\mathbb{E}[T_i]= \frac{1}{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p}+i \cdot \mu}+\frac{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p} {{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p}+i \cdot \mu}}\cdot \mathbb{E}[T_{i+1}]+\frac{i \cdot \mu}{{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p+i \cdot \mu}}}\cdot \mathbb{E}[T_{i-1}]\]
 
 
         % part c
@@ -435,20 +449,20 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item $X(t)$ is a CTMC when $\{F_n\}$ is memoryless and exponential.\\\\
+        \item $X(t)$ is a CTMC when $\{F_n\}$ is a continuous memoryless distribution, or an exponential distribution.\\\\
         Rates $v_i$:
         \begin{itemize}
-            \item $\lambda P_c$ for $v_0$
-            \item $\lambda P_c \cdot p_i$ and $\mu_i$ for $v_i$ when $i > 0$
+            \item $\lambda$ for $v_0$
+            \item $\lambda \cdot p_i$ and $\mu_i$ for $v_i$ when $i > 0$
         \end{itemize}
         \begin{equation*}
             P_{ij} =
             \begin{bmatrix}
-                -\lambda P_c & \lambda P_c \cdot p_1 & \lambda P_c \cdot p_2 & \lambda P_c \cdot p_3 & \dots \\
-                \mu_1 & -\mu_1   & 0   & 0   & \dots \\
-                0 & \mu_2  & -\mu_2   & 0   & \dots \\ 
-                0 & 0   & \mu_3   & -\mu_3   & \dots \\
-                0 & 0   & 0   & \mu_4   & \dots \\
+                -\lambda & \lambda \cdot p_1 & \lambda \cdot p_2 & \lambda \cdot p_3 & \dots \\
+                \frac{1}{\mu_1} & -\frac{1}{\mu_1}   & 0   & 0   & \dots \\
+                0 & \frac{1}{\mu_2}  & -\frac{1}{\mu_2}   & 0   & \dots \\
+                0 & 0   & \frac{1}{\mu_3}   & -\frac{1}{\mu_3}   & \dots \\
+                0 & 0   & 0   & \frac{1}{\mu_4}   & \dots \\
 
                 \vdots & \vdots   & \vdots   & \vdots & \ddots\\
             \end{bmatrix}
@@ -472,11 +486,18 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
         }{
         \displaystyle \sum_{n=1}^{N}
         \left( \mu_n \cdot \sum_{i=n}^{N} p_i \right)
-        + \frac{1}{\lambda P_c}
+        + \frac{1}{\lambda}
         }
         \]
         % part b
-        \item Part C
+        \item In our code, we estimate the long term profit by simulating only the events that result in a change in state.
+        For the sake of simplicity, we use $p_n = 0.2$ for n from 1 to 5.
+        We use a DES model, where when we are waiting for a customer, we simulate the time till the next accepting customer as an exponential distribution with rate $\lambda P_c$.
+        Keeping our assumptions from part (b), we simulate the stage completion times as $2 \cdot \mu_n U_i$, where $U_i$ is a uniform random variable.
+        We calculate the precision of our estimate using the regenerative method.
+        We outline the method in more detail in our answer for problem 5(a).
+        We chose to search the entire space of valid values of c to find a profit rate maximizing value.
+        We found that the long term profit rate is the highest in the neighborhood of c = 1.25.
         \begin{figure}[h]
                 \begin{center}
                     \includegraphics[scale=0.75]{p4_profit.jpg}
