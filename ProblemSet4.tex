@@ -127,6 +127,89 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
 \end{problem}
 
 \begin{solution}
+    \begin{enumerate}
+        % part a
+        \item $\{X_n\}$ is not a Markov chain because the result of coin flipping is from the past,and it depends on a random coin flipping at time 0. \\
+
+            The transition probabilities:
+
+
+            \[
+            P(X_{n+1} = (j, Coin) \mid X_n = (i, Coin)) =
+            \begin{cases}
+            P^{(1)}_{ij}, & \text{if } Coin = Head \\
+            P^{(2)}_{ij}, & \text{if } Coin = tail
+            \end{cases}
+            \]
+            The limiting probabilities: 
+
+            \[
+            \lim_{n \to \infty} \mathbb{P}(X_n = i) = p \, \pi^{(1)}_i + (1 - p) \, \pi^{(2)}_i
+            \]
+            % part b
+            \item $\{X_n\}$ is a Markov chain because the next state depends on current state $\{X_n\}$,and the coin flipping updates each step.
+
+    The transition probabilities:
+    \[
+    P(X_{n+1} = j \mid X_n = i) = p \cdot P^{(1)}_{ij} + (1 - p) \cdot P^{(2)}_{ij}
+    \]
+    Since the transition probabilities $P_{ij}$ only depend on the state i, $\left\{X_n\right\}$ is a Markov chain.
+    The limiting probabilities: 
+
+    \[
+    \lim_{n \to \infty} \mathbb{P}(X_n = i) = \pi_i
+    \]
+
+    It is the stationary distribution of \[ P =p \cdot P^{(1)} + (1 - p) \cdot P^{(2)}\]
+    Counter example:
+    \[
+    P^{(1)} =
+    \begin{bmatrix}
+    0.2 & 0.8 \\
+    0.1 & 0.9
+    \end{bmatrix},
+    \qquad
+    P^{(2)} =
+    \begin{bmatrix}
+    0.1 & 0.9 \\
+    0.5 & 0.5
+    \end{bmatrix},
+    \qquad
+    p = 0.5.
+    \]
+    Set \( \pi^{(1)} = [x,\ 1 - x] \):
+
+    \[0.2x + 0.1(1 - x) = x
+    \Rightarrow  x = \frac{1}{9}
+    \]
+    \[\pi^{(1)} = \left[\frac{1}{9}, \frac{8}{9}\right]\]
+    Set \( \pi^{(2)} = [x,\ 1 - x] \):
+    \[0.1x + 0.5(1 - x) = x
+    \Rightarrow  x = \frac{5}{14}
+    \]
+    \[\pi^{(2)} = \left[\frac{5}{14}, \frac{9}{14}\right]\]
+    For problem 1a:
+    \[
+    \pi^{(1a)} = 0.5 \cdot \left[\frac{1}{9}, \frac{8}{9}\right] + 0.5 \cdot \left[\frac{5}{14}, \frac{9}{14}\right]
+    = \left[\frac{59}{252}, \frac{193}{252}\right].
+    \]
+    For problem 1b:
+    \[
+    P = 0.5 P^{(1)} + 0.5 P^{(2)} =
+    \begin{bmatrix}
+    0.15 & 0.85 \\
+    0.3 & 0.7
+    \end{bmatrix}.
+    \]
+    Set \( \pi^{(1b)} = [x,\ 1 - x] \):
+    \[
+    0.15x + 0.3(1 - x) = x
+    \Rightarrow x = \frac{6}{23}\] 
+    \[\pi^{(1b)} = \left[\frac{6}{23}, \frac{17}{23}\right]
+    \]
+    Therefore, \( \pi^{(1a)} \ne \pi^{(1b)} \)
+
+    \end{enumerate}
 \end{solution}
 \pagebreak
 
@@ -145,12 +228,58 @@ An algorithm is built to find the zeroes of a function. If this algorithm is in 
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item 
+        \item \[P(find \,\, zero)=\frac {1}{j}\]
+            \[P(j \to k\,\, |\ not \,\, find \,\, zero )=\frac {2k}{j^2}\].
+
+            There are two cases:\\
+            Case 1: Find zero with $P=\frac {1}{j}$,which takes 1 step to get zero.Therefore,
+            \[E(j_1)=\frac {1}{j} \cdot 1=\frac{1}{j}\]
+            Case 2: we can not find zero and move to k states:
+            \[
+            P(j \to k) = \frac{2k}{j^2}.
+            \]
+            Therefore, we need to take $E_k$ more steps :
+            \[
+            E(j_2)= \sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot (1+E_k)
+            \]
+            We need take 1 step to get next state, so there is $(1+E_k)$ in $E(j_2)$ function.\\\\
+            \[
+            E(j)=E(j_1)+E(j_2)=\frac {1}{j}+ \sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot (1+E_k)
+                            =\frac {1}{j}+ \sum_{k=1}^{j-1} \frac {2k}{j^2} +\sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot E_k
+            \]
+            \[
+            E(j)=\frac {1}{j}+ \frac {j-1}{j}+\sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot E_k=1+\sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot E_k
+            \]
+            Therefore,
+            \[
+            E(m)=1+\sum_{k=1}^{m-1} \frac {2k}{m^2} \cdot E_k
+            \]
+            For finding Big O, we use the substitution method and only consider the upper bound.\\\\
+            Assume\[E(k)\leq C\ln k\quad \text{for all } k < j\]
+            \[
+            E(j)=1+\sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot E(k)
+            \]
+            \[E(j)\leq1+\sum_{k=1}^{j-1} \frac {2k}{j^2} \cdot C\ln k\]
+            \[
+            E(j)\leq 1+\frac {2c}{j^2} \int_1^j k \ln k \, dk
+            \]
+            \[ \int_1^j k \ln k \, dk =\frac{j^2}{2}\ln j - \frac{j^2}{4}+\frac{1}{4}\]
+            Therefore,
+
+            \[
+            E(j)\leq 1+ \frac {2c}{j^2}(\frac{j^2}{2}\ln j - \frac{j^2}{4}+\frac{1}{4})
+            \]
+            \[Ej\leq C \ln j +1-\frac {1}{2}C+\frac{C}{2j^2}\]
+            When there is a constant C, that makes $1-\frac {1}{2}C+\frac{C}{2j^2}\leq 0$, we can have:
+            \[
+            E(j)\leq C \ln j \Rightarrow E(j) \leq \mathcal{O}((\ln j))
+            \]
+            Therefore, when we start at state m, we have:
+            \[E(m)\leq \mathcal{O}((\ln m))\]
 
         % part b
         \item In our simulation of the algorithm, we used the inverse CDF method to determine the state of the next step.
         We set up the simulations with an initial state of 1000, since the simulation ran very quickly and the variance of the iterations from each simulation was high enough to require a good number (usually over 100 repetitions) in order to arrive at our target relative error of $5\%$.\\\\
-        Todo: analytically estimate the number of iterations needed.\\\\
         In order to achieve a relative error of $5\%$, we run the simulation several times, evaluating our estimation interval at a $95\%$ confidence level. $T_{n-1,1-0.05/2}$.
         To calculate the estimated variance of the sample mean, we sum the samples and the squares of samples, and use the following formula:
         \begin{equation*}
@@ -174,7 +303,7 @@ An algorithm is built to find the zeroes of a function. If this algorithm is in 
                 \end{center}
         \end{figure}
 
-        See attached files for the simulation code.
+        To verify that the complexity is $\mathcal{O}(\ln(m))$, we plotted the log of the initial state against the average iterations.
     \end{enumerate}
 \end{solution}
 
@@ -200,7 +329,48 @@ There are $N$ individuals in a population, some of whom have a certain viral inf
         \item Part A
 
         % part b
-        \item Part B
+        \item For model 1:\\
+possible pairs for next infection:
+\[i(N-i)\]
+Total pairs:
+\[\binom{N}{2} = \frac{N(N - 1)}{2}\]
+The transition rate of next state infection:
+\[
+\ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
+\]
+
+\[
+\ q_{i, i+1} = \lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p.
+\]
+The expected time of a member infected :
+\[
+\mathbb{E}[T_k] = \frac{1}{q_{k,k+1}}.
+\]
+
+The expected time of all members of the population are infected :
+\[
+\mathbb{E}[T_{total}] = \sum_{k=i}^{N-1} \frac{1}{q_{k,k+1}}.
+\]
+For model 2:\\\\
+Infection transition rate :
+\[
+\ q_{i, i+1} = \lambda \cdot \frac{i(N - i)}{\binom{N}{2}} \cdot p.
+\]
+Recovery transition rate :
+\[
+  q_{i, i-1} = i \cdot \mu
+  \]
+Total transition rate of moving state:
+\[ {1}{q_{i, i-1} + q_{i, i+1}} \]
+The expected time spent in state i before moving to next state:
+\[\frac{1}{q_{i, i-1} + q_{i, i+1}}\]
+Therefore,total expected time until absorption: $\mathbb{E}[T_{total}]$ =time for next move + time after move.\\\\
+\[\mathbb{E}[T_i]= \frac{1}{q_{i, i-1} + q_{i, i+1}} 
++ \frac{q_{i, i+1}}{q_{i, i-1} + q_{i, i+1}} T_{(i+1)} 
++ \frac{q_{i, i-1}}{q_{i, i-1} + q_{i, i+1}} T_{(i-1)}\]
+
+\[\mathbb{E}[T_i]= \frac{1}{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p}+i \cdot \mu}+\frac{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p} {{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p}+i \cdot \mu}}\cdot \mathbb{E}[T_{i+1}]+\frac{i \cdot \mu}{{{\lambda \cdot \frac{2i(N - i)}{N(N - 1)} \cdot p+i \cdot \mu}}}\cdot \mathbb{E}[T_{i-1}]\]
+
 
         % part c
         \item In both models, we note that since contacts occur within the population according to a Poisson process of rate~$\lambda$,
