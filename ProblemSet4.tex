@@ -117,12 +117,12 @@
 \vskip - 2 cm { {\bfseries Problem Set 4}}
 \end{center}
 
-\begin{problem}\marks{10}
+\begin{problem}
 Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains with respective limit probabilities $\pi^{(i)}$, for $i=1,2$. 
 \begin{enumerate}
-\item \marks{5} Let $X_0=1$ be given. If the result of a coin toss is Heads (H) then $\{X_n\}$ will follow the dynamics given by $P^{(1)}$. Otherwise it will follow those given by $P^{(2)}$. Is $\{X_n\}$ a Markov chain? Determine the transition probabilities. Letting  $p=\Prob(H)$, calculate the limiting probabilities: $\lim_{n\to\infty} \Prob(X_n=i)$.
+\item Let $X_0=1$ be given. If the result of a coin toss is Heads (H) then $\{X_n\}$ will follow the dynamics given by $P^{(1)}$. Otherwise it will follow those given by $P^{(2)}$. Is $\{X_n\}$ a Markov chain? Determine the transition probabilities. Letting  $p=\Prob(H)$, calculate the limiting probabilities: $\lim_{n\to\infty} \Prob(X_n=i)$.
 
-\item \marks{5} Now suppose that at each step we first throw a coin. If it results $H$ then the following state is chosen according to $P^{(1)}$, otherwise it is chosen according to $P^{(2)}$. Is $\{X_n\}$ a Markov chain? Show  by counterexample that the limit probabilities are not the same as in (a) above.
+\item Now suppose that at each step we first throw a coin. If it results $H$ then the following state is chosen according to $P^{(1)}$, otherwise it is chosen according to $P^{(2)}$. Is $\{X_n\}$ a Markov chain? Show  by counterexample that the limit probabilities are not the same as in (a) above.
 \end{enumerate}
 \end{problem}
 
@@ -134,46 +134,63 @@ Let $P^{(i)}, i = 1,2$ be the transition matrices of two ergodic Markov chains w
 %Consider a population of individuals each of whom possesses two genes that can be either type $A$ or type $a$. Suppose that in outward appearance (the {\em phenotype}) type $A$ is dominant and type $a$ recessive. Suppose that the population has stabilized, and the percentages of individuals having respective gene pairs $AA$, $aa$ and $Aa$ are $p,q,$ and $r$ Call an individual dominant or recessive depending on phenotype. Let $S_{11}$ denote the probability that an offspring of two dominant parents will be recessive, $S_{10}$ the probability that the offspring of one recessive and one dominant parent will be recessive. Compute $S_{11}$ and $S_{10}$ to show that $S_{11}= S_{10}^2$. These quantities are known in genetics as {\em Snyder's ratios}. 
 %\end{problem}
 
-\begin{problem}\marks{20}
+\begin{problem}
 An algorithm is built to find the zeroes of a function. If this algorithm is in state $j$ at the $n$-th step, then the probability of finding a zero in the next step is $1/j$. Otherwise its state will be $k \in \{1,2,\ldots, j-1\}$ with probability $2k/j^2$. 
 \begin{enumerate}
-\item \marks{10} Find the mean number of iterations of the algorithm when we start at state $m$ and show that this is $O(\ln(m))$. 
-\item \marks{10} Simulate this process as a Markov chain and estimate the number of iterations until the algorithm finds the zero. Explain how you write the code  in order to achieve a  relative error of $5\%$ in your final estimate.  Verify that your simulation results are consistent with your theoretical answer above. 
+\item Find the mean number of iterations of the algorithm when we start at state $m$ and show that this is $O(\ln(m))$. 
+\item Simulate this process as a Markov chain and estimate the number of iterations until the algorithm finds the zero. Explain how you write the code  in order to achieve a  relative error of $5\%$ in your final estimate.  Verify that your simulation results are consistent with your theoretical answer above. 
 \end{enumerate}
 \end{problem}
 
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item Part A
+        \item 
 
         % part b
-        \item In our simulation of the algorithm, we use the inverse CDF method to determine the state of the next step.
-        We set up the simulations with an initial state of 1000, since the simulation ran very quickly and the variance of the iterations from each simulation was high enough to require a good number (usually over 100 repetitions) in order to arrive at our target relative error of $5\%$.
-        Todo: analytically estimate the number of iterations needed.
+        \item In our simulation of the algorithm, we used the inverse CDF method to determine the state of the next step.
+        We set up the simulations with an initial state of 1000, since the simulation ran very quickly and the variance of the iterations from each simulation was high enough to require a good number (usually over 100 repetitions) in order to arrive at our target relative error of $5\%$.\\\\
+        Todo: analytically estimate the number of iterations needed.\\\\
         In order to achieve a relative error of $5\%$, we run the simulation several times, evaluating our estimation interval at a $95\%$ confidence level. $T_{n-1,1-0.05/2}$.
         To calculate the estimated variance of the sample mean, we sum the samples and the squares of samples, and use the following formula:
-        \operatorname{Var}(\bar{X}) = \frac{1}{n} \cdot \frac{\sum_{i=1}^{n} x_i^2 - \frac{(\sum_{i=1}^{n} x_i)^2}{n}}{n - 1}
-
+        \begin{equation*}
+            \operatorname{Var}(\bar{X}) = \frac{1}{n} \cdot \frac{\sum_{i=1}^{n} x_i^2 - \frac{(\sum_{i=1}^{n} x_i)^2}{n}}{n - 1}
+        \end{equation*}
+        
         Then we calculate half the length of our estimation interval and compare with our desired relative error.
-        T_{n-1,\,1-\frac{0.05}{2}} \; \sqrt{\operatorname{Var}(\bar{X})}
+        \begin{equation*}
+            T_{n-1,\,1-\frac{0.05}{2}} \; \sqrt{\operatorname{Var}(\bar{X})}
+        \end{equation*}
+
+        \begin{figure}[h]
+                \begin{center}
+                    \includegraphics[scale=0.46]{p2_dist_fig.png}
+                    \includegraphics[scale=0.46]{p2_conf_fig.png}
+                \end{center}
+        \end{figure}
+        \begin{figure}[h]
+                \begin{center}
+                    \includegraphics[scale=0.65]{p2_avg_fig.jpg}
+                \end{center}
+        \end{figure}
 
         See attached files for the simulation code.
     \end{enumerate}
 \end{solution}
+
 \pagebreak
 
-\begin{problem} \marks{25}
+\begin{problem}
 There are $N$ individuals in a population, some of whom have a certain viral infection that spreads as follows. Contacts between two members of this population occur in accordance with a Poisson process of rate $\la$. When a contact occurs, it is equally likely to involve any of the $N\choose2$ pairs of individuals. If a contact involves an infected and a healthy individual, then with probability $p$ the non-infected one becomes infected. For Model 1 we assume that once infected, an individual remains infected throughout. In Model 2, once infected, an individual remains ill for an exponential amount of time with intensity $\mu$, after which she/he becomes healthy again. We assume no deaths occur, and there is no spontaneous infection. Let $X(t)$ denote the number of infected individuals at time $t$. 
 %For model 2 we assume that recovered individuals have life immunity so they never get the infection again. 
 \begin{enumerate}
-\item \marks{5} Show that $\{X(t), t\ge 0\}$ is a continuous time Markov Chain (CTMC). Specifically, show that it is a Birth and Death process.  For each of the models, specify the classes of the states and determine whether it is an absorbing Markov chain (identify the absorbing states) or an ergodic Markov Chain. Specify for each model the transition rates $q_{ij}$, the aggregate rate $v_1$ and the transition probabilities of the embedded chain $P_{ij}$. 
+\item Show that $\{X(t), t\ge 0\}$ is a continuous time Markov Chain (CTMC). Specifically, show that it is a Birth and Death process.  For each of the models, specify the classes of the states and determine whether it is an absorbing Markov chain (identify the absorbing states) or an ergodic Markov Chain. Specify for each model the transition rates $q_{ij}$, the aggregate rate $v_1$ and the transition probabilities of the embedded chain $P_{ij}$. 
 
-\item \marks{10} Starting with $i\ge1$ infected individuals, calculate the expected time until all members of the population are infected in Model 1. What is the expected time until absorption for Model 2? (you may use pseudocode to exhibit the solution, if not analytical).
+\item Starting with $i\ge1$ infected individuals, calculate the expected time until all members of the population are infected in Model 1. What is the expected time until absorption for Model 2? (you may use pseudocode to exhibit the solution, if not analytical).
 
-\item \marks{5}  Explain how to do a simulation to estimate the time until absorption for the process of Model 2, starting at $X(0)=1$ and perform the simulations. Include confidence intervals and explain how you calculate the variance. [{\it Hint:} Note that you have already calculated the expected value, which should help validate your simulation code]. 
+\item Explain how to do a simulation to estimate the time until absorption for the process of Model 2, starting at $X(0)=1$ and perform the simulations. Include confidence intervals and explain how you calculate the variance. [{\it Hint:} Note that you have already calculated the expected value, which should help validate your simulation code]. 
 
-\item \marks{5}  Explain how you would modify the model and the simulation code for the following scenario: contagion follows the same model as before, but once an individual is recovered, he/she has life immunity so they cannot get the infection again. 
+\item Explain how you would modify the model and the simulation code for the following scenario: contagion follows the same model as before, but once an individual is recovered, he/she has life immunity so they cannot get the infection again. 
 \end{enumerate}
 \end{problem}
 
@@ -248,7 +265,24 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item Part A
+        \item $X(t)$ is a CTMC when $\{F_n\}$ is memoryless and exponential.\\\\
+        Rates $v_i$:
+        \begin{itemize}
+            \item $\lambda P_c$ for $v_0$
+            \item $\lambda P_c \cdot p_i$ and $\mu_i$ for $v_i$ when $i > 0$
+        \end{itemize}
+        \begin{equation*}
+            P_{ij} =
+            \begin{bmatrix}
+                -\lambda P_c & \lambda P_c \cdot p_1 & \lambda P_c \cdot p_2 & \lambda P_c \cdot p_3 & \dots \\
+                \mu_1 & -\mu_1   & 0   & 0   & \dots \\
+                0 & \mu_2  & -\mu_2   & 0   & \dots \\ 
+                0 & 0   & \mu_3   & -\mu_3   & \dots \\
+                0 & 0   & 0   & \mu_4   & \dots \\
+
+                \vdots & \vdots   & \vdots   & \vdots & \ddots\\
+            \end{bmatrix}
+        \end{equation*}
         % part b
         \item The long term profit rate can be expressed as the following:
         \[
@@ -257,7 +291,7 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
 
         \[
         = c \cdot \frac{\text{customers} \times \text{avg. time per customer}}
-        {\text{customers} \times \text{avg. time per customer} + \text{avg. time between customers}}
+        {\text{customers} \times \left(\text{avg. time per customer} + \text{avg. time between customers}\right)}
         \]
 
         \[
@@ -268,11 +302,16 @@ Design a simulation to evaluate the long term profit as a function of $c$. Expla
         }{
         \displaystyle \sum_{n=1}^{N}
         \left( \mu_n \cdot \sum_{i=n}^{N} p_i \right)
-        + \frac{1}{\lambda}
+        + \frac{1}{\lambda P_c}
         }
         \]
         % part b
         \item Part C
+        \begin{figure}[h]
+                \begin{center}
+                    \includegraphics[scale=0.75]{p4_profit.jpg}
+                \end{center}
+        \end{figure}
     \end{enumerate}
 \end{solution}
 \pagebreak
@@ -292,31 +331,54 @@ Consider a M/GI/1 queue with Poisson arrivals of rate $\la$ and iid service time
 \begin{solution}
     \begin{enumerate}
         % part a
-        \item We modified our simulation code from the previous problem set to continue the simulation until the confidence interval has precision $\ep < 0.1$.
-        With the batch means method, for best performance the length of each batch should be n and the number of batches should be $\sqrt{n}$.
-        Increasing n to reduce the confidence interval, while spinning up new batches and balancing the length of all batches seemed unnecessarily complicated and could require a lot of memory, so we decdied to use the regenerative method.
-        For the DES model, which estimates a stationary average, we define the end of a regeneration cycle as when there are no customers in the queue and no customer is being served.
-        For each cycle, we calculate $\int_{T_{k-1}}^{T_k} queue\_length\ dt$ as the waiting time in the kth cycle.
+        \item We used the simulation code from the previous problem set and modified it with stopping time.
+        In both of these simulations, it stops when the confidence interval has precision $\ep < 0.1$. \\
+        There were two methods that we considered to do this:
+        \begin{itemize}
+            \item Batch Mean Method
+            \item Regenerative Method
+        \end{itemize}
+        In order to obtain the best performance using the Batch Mean Method, where $n$ is the length of each batch, the number of batches would be $\sqrt{n}$.
+        As such, $n$ would need to increase to reduce the confidence interval. In addition, it would need to spin up new batches and then balance the length of all the batches.
+        All of this work seemes unnecessarily complicated and could require a lot of memory and time. \\
+        As a result, we decided to go with the regenerative method.
+        For the DES model that determines an estimation of the stationary average, we defined that a cycle ends when there are no customers in the queue and that no customer is being served. \\\\
+        For each cycle, we calculate: 
+        \begin{equation*}
+            \int_{T_{k-1}}^{T_k} \text{queue\_length}\ dt
+        \end{equation*}
+        as the waiting time in the $k$th cycle.\\\\
         Using the sums of the waiting times, sums of the squares of the waiting times, sums of the regeneration times, and sums of the squares of the regeneration times, and the sample mean, we calculate $\sigma_z$.
-        We calculate the width of our confidence interval as $\frac{Z_{0.975}\,\sigma_z}{\sqrt{n}\hat{\mu}}$, and stop when it is less than 0.1.
+        We calculate the width of our confidence interval as:
+        \begin{equation*}
+            \frac{Z_{0.975}\,\sigma_z}{\bar{T}\sqrt{n}}
+        \end{equation*}
+        and stop when it is less than 0.1. \\\\
         In the case of the POM model, the output is an estimate of the average sojourn time per customer.
-        Since we are finding an average per customer rather than per unit time, we thought it would be appropriate to calculate the total sojourn time in each cycle, use the number of customers in each cycle instead of the regeneration times.
+        Since we are finding an average per customer rather than per unit time, we can calculate the total sojourn time in each cycle by using the number of customers in each cycle instead of the regeneration times.
         Otherwise, it follows the same method used in the DES model.
 
         % part b
-        \item The total number of iterations the simulation performs is a random stopping time since we calculate our confidence interval based on past observations, and stop when it is less than a fixed number.
-
-        % part c
-        \item
-        \begin{figure}[h]
+        \item The total number of iterations the simulation performs is a random stopping time since we calculate our confidence interval based on past observations. 
+        The simulation stops when it reaches less than a fixed number.
+        \begin{figure}[h!]
             \begin{center}
-                \includegraphics[scale=0.38]{p5_des_fig.png}
-                \includegraphics[scale=0.38]{p5_pom_fig.png}
+                \includegraphics[scale=0.8]{p5_code_snippet.png}
             \end{center}
         \end{figure}
-        20 DES estimations took a total of 21.26 seconds, while 20 POM estimations took a very similar 22.76 seconds.
-        Both approaches are very close in terms of speed, and the distribution of their output \theta estimates are not significantly different.
-        For both approaches, the coverage was the expected $95\%$
+        \newline
+        % part c
+        \item Running 20 DES estimations took a total of 21.26 seconds, while 20 POM estimations took a very similar 22.76 seconds.
+        As such, the running time of these approaches are similar to each other.
+        We believe that this is due to the additional computational cost of evaluating confidence intervals as it is the biggest contributor to the computational time of both approaches. 
+        The distribution of their output $\theta$ estimates are not significantly different.
+        For both of these approaches, the coverage was the expected $95\%$.
+        \begin{figure}[h]
+            \begin{center}
+                \includegraphics[scale=0.46]{p5_des_fig.png}
+                \includegraphics[scale=0.46]{p5_pom_fig.png}
+            \end{center}
+        \end{figure}
     \end{enumerate}
 \end{solution}
 
